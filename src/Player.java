@@ -1,44 +1,57 @@
 //data for an individual player
 
-public class Player {
+import java.util.Observable;
+
+public class Player extends Observable {
 	private String name;
-	private int[] moves; //1 for clicked boxes, empty for boxed not clicked yet (L to R; T to B)
+	private boolean[] moves;
 	
 	public Player(String s) { //constructor
 		name = s;
-		moves = new int[9];
+		moves = new boolean[9];
+
+        for (int i=0; i<9; i++) {
+            moves[i] = false;
+        }
 	}
 	
 	public String getName() { //returns the name of the player
 		return name;
 	}
 	
-	public int[] getMoves() { //return the moves made by the player
-		return moves;
+	public void addMove(int i) {
+		moves[i] = true;
+        checkIfWon();
 	}
 	
-	public void addMove(int boxNum) {
-		moves[boxNum-1] = 1;
-	}
-	
-	public boolean checkIfWon() { //check if the play has won yet
-		//check for horizontal wins
-		int numInRow = 3;
-		for (int i=0; i<numInRow; i++) {
-			if ((moves[0+i*numInRow] + moves [1+i*numInRow] + moves[2+i*numInRow]) == 3) { //check for horizontal wins
-				return true;
-			}
-			if ((moves[0+i] + moves[3+i] + moves[6+i]) == 3) { //check for vertical wins
-				return true;
-			}
-			if ((moves[0] + moves[4] + moves[8]) == 3) {
-				return true;
-			}
-			if ((moves[2] + moves[4] + moves[6]) == 3) {
-				return true;
-			}
+	private void checkIfWon() {
+		// check horizontal wins
+		for (int i=0; i<9; i+=3) {
+			if (moves[i] && moves[i+1] && moves[i+2]) {
+                setChanged();
+                notifyObservers();
+                break;
+            }
 		}
-		return false;
+
+        // check vertical wins
+        for (int i=0; i<3; i++) {
+            if (moves[i] && moves[i+3] && moves[i+6]) {
+                setChanged();
+                notifyObservers();
+                break;
+            }
+        }
+
+        // check diagonal wins
+        if (moves[0] && moves[4] && moves[8]) {
+            setChanged();
+            notifyObservers();
+        }
+        if (moves[2] && moves[4] && moves[6]) {
+            setChanged();
+            notifyObservers();
+        }
 	}
 	
 }

@@ -1,94 +1,108 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.Arrays;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
-import java.util.Scanner;
 
-public class TicTacToe {
+/*
+ *  A class representing a Tic Tac Toe game
+ */
+public class TicTacToe implements Observer {
 	private static Player p1;
 	private static Player p2;
 	private static Gameboard board;
-	private static int turn;
-	
+    private static NameWindow nameWindow;
+    private boolean p1Turn;
+
+    /*
+     *  EFFECTS: constructor
+     */
 	public TicTacToe() {
-		turn = 1;
+		p1 = null;
+        p2 = null;
+        nameWindow = new NameWindow("1");
+        nameWindow.addObserver(this);
 	}
 
-	public static void main(String[] args) {
-		TicTacToe ttt = new TicTacToe();
-		ttt.newGame();
-	}
-	
-	private void newGame() { //set up blank game, name the players, determine the first player
-		Scanner inputter = new Scanner(System.in);
-		
-		//set up p1 and p2
-		String p1Name = null;
-		String p2Name = null;
-		System.out.println("Enter player 1's name");
-		while (p1Name==null) {
-			p1Name = inputter.nextLine();
-		}
-		System.out.println("Enter player 2's name");
-		while (p2Name==null) {
-			p2Name = inputter.nextLine();
-		}
-		
+    /*
+     *  EFFECTS: randomly returns one of the given players
+     */
+    private void randChooseFirstPlayer() {
+        if (((int) Math.random() * 10) % 2 == 0) {
+            p1Turn = true;
+        } else {
+            p1Turn = false;
+        }
+    }
+
+    /*
+     *  REQUIRES: players are initialized
+     *  EFFECTS: starts game
+     */
+	private void start() {
+        randChooseFirstPlayer();
 		board = new Gameboard();
-		
-		//randomly determine who starts
-		Random rand = new Random();
-		if (rand.nextBoolean()==true) {
-			p1 = new Player (p1Name);
-			p2 = new Player (p2Name);
-			System.out.println(p1Name + " starts");
-		}
-		else {
-			p1 = new Player (p2Name);
-			p2 = new Player (p1Name);
-			System.out.println(p2Name + " starts");
-		}
-	}
-	
-	//function that will be called by Gameboard to update moves and turn
-	public static void updateMoves(int bNum) {
-		if (turn%2 != 0) { //p1's turn
-			p1.addMove(bNum);
-			board.updateButton(bNum,"x");
-		}
-		else { //p2's turn
-			p2.addMove(bNum);
-			board.updateButton(bNum,"o");
-		}
-		
-		if (getWinner()==null) { // no winner yet
-			if (turn==9) { //was the last turn
-				printWinner("Tie!");
-			}
-			else { //more turns are left
-				turn++;
-			}
-		}
-		else { // there's a winner
-			printWinner(getWinner());
-		}
-	}
-	
-	private static String getWinner() { //returns the name of the winner. if there is no winner, return null
-		if (p1.checkIfWon()==true) {
-			return p1.getName();
-		}
-		else if (p2.checkIfWon()==true) {
-			return p2.getName();
-		}
-		return null;
+        board.addObserver(this);
+        p1.addObserver(this);
+        p2.addObserver(this);
 	}
 
-	private static void printWinner(String winner) {
-		board.clearButtons();
-		if (winner.equals("Tie!")) {
-			System.out.println(winner);
-		}
-		else {
-			System.out.println(winner + " won!");
-		}
-	}
+    private void congratWinner(Player winner) {
+        board.hide();
+        JFrame window = new JFrame("Wow, a winner!");
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setMinimumSize(new Dimension(300, window.getHeight()));
+        window.setLocationRelativeTo(null);
+        JLabel name = new JLabel("Congrats, " + winner.getName() + " !");
+        JButton rematch = new JButton("Rematch");
+        rematch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                window.dispose();
+                new TicTacToe();
+            }
+        });
+        window.getContentPane().setLayout(new GridLayout(2,1));
+        window.getContentPane().add(name);
+        window.getContentPane().add(rematch);
+        window.pack();
+        window.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        TicTacToe game = new TicTacToe();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o.getClass() == NameWindow.class) {
+            if (p1 == null) {
+                p1 = new Player(nameWindow.getName());
+                NameWindow nameWindow = new NameWindow("2");
+                nameWindow.addObserver(this);
+            } else if (p2 == null) {
+                p2 = new Player(nameWindow.getName());
+                start();
+            }
+        } else if (o.getClass() == Gameboard.class) {
+            Player toUpdate;
+            String mark;
+            if (p1Turn) {
+                toUpdate = p1;
+                mark = "x";
+                p1Turn = false;
+            } else {
+                toUpdate = p2;
+                mark = "o";
+                p1Turn = true;
+            }
+            toUpdate.addMove((int) arg);
+            board.updateButton((int) arg, mark);
+        } else if (o.getClass() == Player.class) {
+            Player winner = (Player) o;
+            congratWinner(winner);
+        }
+    }
 }
