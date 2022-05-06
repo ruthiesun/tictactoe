@@ -17,7 +17,7 @@ public class TicTacToe implements Observer {
     private boolean p1Turn;
 
     /*
-     *  EFFECTS: constructor
+     *  EFFECTS: constructor. Sets players to null and asks user to input first player's name
      */
 	public TicTacToe() {
 		p1 = null;
@@ -27,7 +27,7 @@ public class TicTacToe implements Observer {
 	}
 
     /*
-     *  EFFECTS: randomly returns one of the given players
+     *  EFFECTS: randomly chooses one of the players to play the first move
      */
     private void randChooseFirstPlayer() {
         if (((int) Math.random() * 10) % 2 == 0) {
@@ -49,6 +49,10 @@ public class TicTacToe implements Observer {
         p2.addObserver(this);
 	}
 
+    /*
+     *  REQUIRES: one of the player has won
+     *  EFFECTS: opens a window that congratulates the player and prompts for a rematch
+     */
     private void congratWinner(Player winner) {
         board.hide();
         JFrame window = new JFrame("Wow, a winner!");
@@ -71,10 +75,18 @@ public class TicTacToe implements Observer {
         window.setVisible(true);
     }
 
+    /*
+     *  EFFECTS: starts a new game
+     */
     public static void main(String[] args) {
         TicTacToe game = new TicTacToe();
     }
 
+    /*
+     *  EFFECTS:    if notified by NameWindow, initializes player and either prompts for next name or starts game
+     *              if notified by Gameboard, updates player move count and board state
+     *              if notified by Player, player has won - congratulates the player
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o.getClass() == NameWindow.class) {

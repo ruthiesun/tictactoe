@@ -1,9 +1,11 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Observable;
 
+/*
+ *  A class that allows a user to enter a player name
+ */
 public class NameWindow extends Observable {
     private JFrame window;
     private JTextField nameField;

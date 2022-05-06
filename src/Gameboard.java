@@ -5,9 +5,11 @@ import java.util.Observable;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/*
+ *  Class representing a tic tac toe board
+ */
 public class Gameboard extends Observable implements ActionListener {
     private JFrame window;
 	private JButton[] buttons;
@@ -15,7 +17,10 @@ public class Gameboard extends Observable implements ActionListener {
     private final Color P1_COLOUR = new Color(255,212,212);
     private final Color P2_COLOUR = new Color(216,255,212);
     private final int WIDTH = 300;
-	
+
+    /*
+     *  EFFECTS: constructor
+     */
 	public Gameboard() {
         window = new JFrame("Tic Tac Toe");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,10 +39,12 @@ public class Gameboard extends Observable implements ActionListener {
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-        window.revalidate();
-        window.repaint();
 	}
 
+    /*
+     *  REQUIRES: ActionEvent originated from one of 9 buttons
+     *  EFFECTS: notifies observers with button number
+     */
 	@Override
 	public void actionPerformed(ActionEvent b) {
 		JButton pressed = (JButton) b.getSource();
@@ -62,7 +69,11 @@ public class Gameboard extends Observable implements ActionListener {
             notifyObservers(8);
         }
 	}
-	
+
+    /*
+     *  REQUIRES: mark is either "x" or "o"; 0<=i<=8
+     *  EFFECTS: updates game buttons
+     */
 	public void updateButton(int i, String mark) {
         buttons[i].setEnabled(false);
         buttons[i].setText(mark);
@@ -71,8 +82,6 @@ public class Gameboard extends Observable implements ActionListener {
         } else {
             buttons[i].setBackground(P2_COLOUR);
         }
-        window.revalidate();
-        window.repaint();
 	}
 
     public void hide() {
