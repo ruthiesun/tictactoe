@@ -1,10 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
 /*
  *  A class representing a Tic Tac Toe game

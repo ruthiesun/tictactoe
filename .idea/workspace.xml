@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c384dde-08ac-4703-946f-bb55ffaa983e" name="Changes" comment="refactored">
+    <list default="true" id="1c384dde-08ac-4703-946f-bb55ffaa983e" name="Changes" comment="added documentation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Gameboard.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Gameboard.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/TicTacToe.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/TicTacToe.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Gameboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Gameboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NameWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/TicTacToe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TicTacToe.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,7 +72,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651812117100</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added documentation">
+      <created>1651812956915</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1651812956915</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -88,9 +92,11 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="refactored" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactored" />
+    <MESSAGE value="added documentation" />
+    <option name="LAST_COMMIT_MESSAGE" value="added documentation" />
   </component>
 </project>
