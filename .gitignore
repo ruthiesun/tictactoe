@@ -1,3 +1,6 @@
 # Default ignored files
 bin/*
 .idea/*
+production/*
+TicTacToe.iml
+out/*
