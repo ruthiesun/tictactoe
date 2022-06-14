@@ -21,8 +21,9 @@ public class Gameboard extends Observable implements ActionListener {
     /*
      *  EFFECTS: constructor
      */
-	public Gameboard() {
-        window = new JFrame("Tic Tac Toe");
+	public Gameboard(String turn) {
+        window = new JFrame();
+        displayTurn(turn);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setPreferredSize(new Dimension(WIDTH, WIDTH));
 
@@ -40,6 +41,10 @@ public class Gameboard extends Observable implements ActionListener {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 	}
+
+    public void displayTurn(String turn) {
+        window.setTitle(turn + "'s turn");
+    }
 
     /*
      *  REQUIRES: ActionEvent originated from one of 9 buttons
