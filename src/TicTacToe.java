@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 /*
  *  A class representing a Tic Tac Toe game
@@ -28,7 +29,7 @@ public class TicTacToe implements Observer {
      *  EFFECTS: randomly chooses one of the players to play the first move
      */
     private void randChooseFirstPlayer() {
-        if (((int) Math.random() * 10) % 2 == 0) {
+        if (Math.random()<0.5) {
             p1Turn = true;
         } else {
             p1Turn = false;
@@ -41,7 +42,13 @@ public class TicTacToe implements Observer {
      */
 	private void start() {
         randChooseFirstPlayer();
-		board = new Gameboard();
+        String turn;
+        if (p1Turn) {
+            turn = p1.getName();
+        } else {
+            turn = p2.getName();
+        }
+		board = new Gameboard(turn);
         board.addObserver(this);
         p1.addObserver(this);
         p2.addObserver(this);
@@ -90,7 +97,7 @@ public class TicTacToe implements Observer {
         if (o.getClass() == NameWindow.class) {
             if (p1 == null) {
                 p1 = new Player(nameWindow.getName());
-                NameWindow nameWindow = new NameWindow("2");
+                nameWindow = new NameWindow("2");
                 nameWindow.addObserver(this);
             } else if (p2 == null) {
                 p2 = new Player(nameWindow.getName());
@@ -103,10 +110,12 @@ public class TicTacToe implements Observer {
                 toUpdate = p1;
                 mark = "x";
                 p1Turn = false;
+                board.displayTurn(p2.getName());
             } else {
                 toUpdate = p2;
                 mark = "o";
                 p1Turn = true;
+                board.displayTurn(p1.getName());
             }
             toUpdate.addMove((int) arg);
             board.updateButton((int) arg, mark);
